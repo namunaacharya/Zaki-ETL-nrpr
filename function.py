@@ -1,6 +1,8 @@
 from datetime import date
 
-class Enrollment:
+class Enrollment():
+    student_count = 0
+    
     def __init__(self, st_name:str, course_name:str, enroll_date, status='enrolled'):
         self.st_name = st_name
         self.course_name = course_name
@@ -10,6 +12,8 @@ class Enrollment:
         self.level = ['Basic', 'Intermediate', 'Advanced']
         self.grade = {'Basic': 70, 'Intermediate': 80}
         self.is_active = False
+        self.student_count = Enrollment.student_count 
+        Enrollment.student_count += 1
 
     def student(self):
         print(f'{self.st_name} has enrolled in {self.course_name} on {self.enroll_date}')
@@ -22,17 +26,15 @@ class Enrollment:
             self.status = 'Completed'   
         else: 
             self.status = 'Invalid'
-            print("Invalid date")
+            raise ValueError('Invalid date')
             
     def st_status(self):
         if self.is_active:
             print(f"{self.st_name} is currently studying.")
-        elif self.status == 'Invalid':
-            print(f"{self.st_name}'s enrollment date is invalid.")
         else:
             print(f"{self.st_name} has completed the course.")
 
-    def new_topic(self, topic):
+    def new_topic(self, *topic):
         self.topics.add(topic)
         print(f'Updated topics: {self.topics}')
 
@@ -50,16 +52,27 @@ def average_grade(student):
     average = sum(student.grade.values()) / len(student.grade)
     return average
 
-new = Enrollment('Namuna','Data Science','2024-01-30')
+new = Enrollment('Namuna','Data Science','2025-01-30')
 new.student()
 new.course_stat()
 new.st_status()
-new.new_topic('Power BI')
+new.new_topic('Power BI','Excel')
 new.check_level('Beginner')
 new.add_grade('Advanced', 80)
-
 avg_grade = round(average_grade(new),2)
 print(f"Average grade of {new.st_name} is {avg_grade}")
+
+new1 = Enrollment('Namm','Data Science','2025-01-30')
+print(Enrollment.student_count)
+
+# def new(*args,**kwargs):
+#     for i in args:
+#         print(i)
+
+#     for i in kwargs.values():
+#         print(i)
+
+# value = new('namm','acharya',age=20)
 
 
 
