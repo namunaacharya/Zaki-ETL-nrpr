@@ -65,14 +65,7 @@ print(f"Average grade of {new.st_name} is {avg_grade}")
 new1 = Enrollment('Namm','Data Science','2025-01-30')
 print(Enrollment.student_count)
 
-# def new(*args,**kwargs):
-#     for i in args:
-#         print(i)
 
-#     for i in kwargs.values():
-#         print(i)
-
-# value = new('namm','acharya',age=20)
 
 
 
