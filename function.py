@@ -1,8 +1,9 @@
 from datetime import date
+from abc import abstractmethod, ABC
 
-class Enrollment():
+class Enrollment(ABC):
     student_count = 0
-    
+
     def __init__(self, st_name:str, course_name:str, enroll_date, status='enrolled'):
         self.st_name = st_name
         self.course_name = course_name
@@ -12,11 +13,14 @@ class Enrollment():
         self.level = ['Basic', 'Intermediate', 'Advanced']
         self.grade = {'Basic': 70, 'Intermediate': 80}
         self.is_active = False
-        self.student_count = Enrollment.student_count 
         Enrollment.student_count += 1
 
+    @abstractmethod
+    def enroll_type(self):
+        pass
+
     def student(self):
-        print(f'{self.st_name} has enrolled in {self.course_name} on {self.enroll_date}')
+        return(f'{self.st_name} has enrolled in {self.course_name} on {self.enroll_date}')
 
     def course_stat(self):
         current_date = date.today().strftime('%Y-%m-%d')
@@ -52,21 +56,51 @@ def average_grade(student):
     average = sum(student.grade.values()) / len(student.grade)
     return average
 
-new = Enrollment('Namuna','Data Science','2025-01-30')
-new.student()
-new.course_stat()
-new.st_status()
-new.new_topic('Power BI','Excel')
-new.check_level('Beginner')
-new.add_grade('Advanced', 80)
-avg_grade = round(average_grade(new),2)
-print(f"Average grade of {new.st_name} is {avg_grade}")
+# new = Enrollment('Namuna','Data Science','2025-01-30')
+# new.student()
+# new.course_stat()
+# new.st_status()
+# new.new_topic('Power BI','Excel')
+# new.check_level('Beginner')
+# new.add_grade('Advanced', 80)
+# avg_grade = round(average_grade(new),2)
+# print(f"Average grade of {new.st_name} is {avg_grade}")
 
-new1 = Enrollment('Namm','Data Science','2025-01-30')
-print(Enrollment.student_count)
+# new1 = Enrollment('Namm','Data Science','2025-01-30')
+# print(Enrollment.student_count)
+
+class OnlineEnrollment(Enrollment):
+    online_students = 0
+
+    def __init__(self, st_name, course_name, enroll_date, platform, status='enrolled',):
+        super().__init__(st_name, course_name, enroll_date, status)
+        self.platform = platform
+        OnlineEnrollment.online_students += 1
+
+    def enroll_type(self):
+        parent = super().student()
+        print(f"{parent} through {self.platform}")
+
+class PhysicalEnrollment(Enrollment):
+    physical_students = 0
+
+    def __init__(self, st_name, course_name, enroll_date, branch, status='enrolled',):
+        super().__init__(st_name, course_name, enroll_date, status)
+        self.branch = branch
+        PhysicalEnrollment.physical_students += 1
+
+    def enroll_type(self):
+        parent = super().student()
+        print(f"{parent} from {self.branch} branch.")
+
+enroll_data = OnlineEnrollment('Namm','Data Science','2025-01-30','LinkedIn')
+enroll_data1 = PhysicalEnrollment('Namuna','Data Science','2025-01-30','Kalanki')
+enroll_data.enroll_type()
+enroll_data1.enroll_type()
+print(f"Total students : {Enrollment.student_count}")
+print(f"Online students: {OnlineEnrollment.online_students}")
+print(f"Physical students: {PhysicalEnrollment.physical_students}")
 
 
 
 
-
-    
